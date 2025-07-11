@@ -49,7 +49,7 @@ public class HeroEndToEndTest {
     @Test
     @DisplayName("E2E: Deve criar um herói com sucesso e retornar status 201 Created")
     void shouldCreateHero() {
-        // Arrange: Prepara a URL completa e o corpo da requisição
+
         String baseUrl = "http://localhost:" + port + "/api/v1/heroes";
 
         CreateHeroRequest heroRequest = CreateHeroRequest.builder()
@@ -108,16 +108,15 @@ public class HeroEndToEndTest {
     @Test
     @DisplayName("E2E: Deve comparar dois heróis e retornar a diferença de atributos")
     void shouldCompareHeroesAndReturnCorrectDifferencesE2E() {
-        // Arrange: Cria dois heróis com atributos conhecidos
+
         UUID hero1Id = createHeroViaApi("Batman", Race.HUMAN, 8, 8);
         UUID hero2Id = createHeroViaApi("Superman", Race.ALIEN, 10, 7);
 
         String url = String.format("http://localhost:%d/api/v1/heroes/compare?idHeroOne=%s&idHeroTwo=%s", port, hero1Id, hero2Id);
 
-        // Act: Faz a chamada GET para o endpoint de comparação
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-        // Assert: Verifica a resposta
+
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         String responseBody = response.getBody();
@@ -126,8 +125,8 @@ public class HeroEndToEndTest {
         // Usando JsonPath para verificar os valores na resposta JSON
         assertThat((String) JsonPath.read(responseBody, "$.hero_one.name")).isEqualTo("Batman");
         assertThat((String) JsonPath.read(responseBody, "$.hero_two.name")).isEqualTo("Superman");
-        assertThat((Integer) JsonPath.read(responseBody, "$.comparison.strength")).isEqualTo(-2); // 8 - 10 = -2
-        assertThat((Integer) JsonPath.read(responseBody, "$.comparison.agility")).isEqualTo(1);   // 8 - 7 = 1
+        assertThat((Integer) JsonPath.read(responseBody, "$.comparison.strength")).isEqualTo(-2);
+        assertThat((Integer) JsonPath.read(responseBody, "$.comparison.agility")).isEqualTo(1);
     }
 
     // --- MÉTODO AUXILIAR PARA CRIAR HERÓI ---

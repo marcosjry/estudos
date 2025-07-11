@@ -103,20 +103,17 @@ public class HeroControllerIntegrationTest {
     @Test
     @DisplayName("Deve encontrar heróis por nome parcial e retornar lista de DTOs completos")
     void shouldFindHeroesByPartialNameAndReturnFullDtoList() throws Exception {
-        // Arrange: Criar múltiplos heróis, alguns que correspondem à busca e outros não
+
         createHeroViaApi("Batman", Race.HUMAN, 5);
         createHeroViaApi("Batgirl", Race.HUMAN, 6);
         createHeroViaApi("Superman", Race.ALIEN, 10);
 
-        // Act & Assert
         mockMvc.perform(get("/api/v1/heroes/search")
                         .param("name", "Bat")) // Busca por um nome parcial
                 .andExpect(status().isOk()) // Espera 200 OK
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.length()", is(2))) // Espera uma lista com 2 resultados
-                // Verifica se os nomes corretos estão na resposta, em qualquer ordem
+                .andExpect(jsonPath("$.length()", is(2)))
                 .andExpect(jsonPath("$[*].name", containsInAnyOrder("Batman", "Batgirl")))
-                // Verifica um atributo de cada para garantir que os PowerStats foram buscados
                 .andExpect(jsonPath("$[?(@.name=='Batman')].strength", contains(5)))
                 .andExpect(jsonPath("$[?(@.name=='Batgirl')].strength", contains(6)));
     }
@@ -130,10 +127,10 @@ public class HeroControllerIntegrationTest {
         createHeroViaApi("Superman", Race.ALIEN, 10);
 
         mockMvc.perform(get("/api/v1/heroes/search")
-                        .param("name", "Lanterna Verde")) // Busca por um nome que não existe
-                .andExpect(status().isOk()) // Espera 200 OK
+                        .param("name", "Lanterna Verde"))
+                .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.length()", is(0))); // Espera uma lista vazia
+                .andExpect(jsonPath("$.length()", is(0)));
     }
 
     @Test
@@ -142,9 +139,9 @@ public class HeroControllerIntegrationTest {
 
         UUID createdHeroId = createHeroViaApi("Batman", Race.HUMAN, 9);
 
-        mockMvc.perform(delete("/api/v1/heroes/{id}", createdHeroId)) // Busca por um nome que não existe
+        mockMvc.perform(delete("/api/v1/heroes/{id}", createdHeroId))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON)); // Espera uma lista vazia
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
         mockMvc.perform(get("/api/v1/heroes/{id}", createdHeroId))
                 .andExpect(status().isNotFound());
@@ -179,7 +176,7 @@ public class HeroControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(updateHeroJson))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON)); // Espera uma lista vazia
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
         mockMvc.perform(get("/api/v1/heroes/{id}", createdHeroId))
                 .andExpect(jsonPath("$.name", is("Batman Updated")))
