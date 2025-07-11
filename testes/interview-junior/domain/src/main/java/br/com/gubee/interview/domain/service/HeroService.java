@@ -5,7 +5,7 @@ import br.com.gubee.interview.domain.dtos.CompareHero;
 import br.com.gubee.interview.domain.dtos.HeroToRequestDTO;
 import br.com.gubee.interview.domain.dtos.HeroToUpdateDTO;
 import br.com.gubee.interview.domain.exception.NotFoundException;
-import br.com.gubee.interview.domain.request.CreateHeroRequest;
+import br.com.gubee.interview.domain.dtos.CreateHeroRequest;
 
 
 import java.util.List;
