@@ -1,6 +1,6 @@
 package br.com.gubee.interview.domain.model;
 
-import br.com.gubee.interview.domain.request.CreateHeroRequest;
+import br.com.gubee.interview.domain.dtos.CreateHeroRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
