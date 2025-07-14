@@ -38,13 +38,13 @@ public class HeroRepositoryIntegrationTest {
 
     @DynamicPropertySource
     static void setDatasourceProperties(DynamicPropertyRegistry registry) {
-
         String jdbcUrl = postgresContainer.getJdbcUrl() + "?currentSchema=interview_service";
 
-        registry.add("spring.datasource.url", () -> jdbcUrl);
-        registry.add("spring.datasource.username", postgresContainer::getUsername);
-        registry.add("spring.datasource.password", postgresContainer::getPassword);
+        registry.add("jdbc.url", () -> jdbcUrl);
+        registry.add("jdbc.username", postgresContainer::getUsername);
+        registry.add("jdbc.password", postgresContainer::getPassword);
         registry.add("spring.flyway.schemas", () -> "interview_service");
+        registry.add("jdbc.schema", () -> "interview_service");
     }
 
     private UUID powerStatsId;
