@@ -1,3 +1,5 @@
+# link para endpoints da API no [postman](https://gubee-interview-junior.postman.co/workspace/gubee~db44c0db-ccbd-4ece-ac30-5195cb379d73/collection/36935782-9eece3a7-7144-4f94-9c98-0a00c5d7e71b?action=share&creator=36935782)
+
 # Teste Programador Backend Júnior/Trainee
 Teste destinado aos candidatos a vaga de Programador Backend <b>Júnior</b>. 
 
