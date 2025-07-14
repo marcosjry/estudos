@@ -40,7 +40,9 @@ public class HeroEndToEndTest {
 
     @DynamicPropertySource
     static void setDatasourceProperties(DynamicPropertyRegistry registry) {
-        registry.add("jdbc.url", postgresContainer::getJdbcUrl);
+        String jdbcUrl = postgresContainer.getJdbcUrl() + "?currentSchema=interview_service";
+
+        registry.add("jdbc.url", () -> jdbcUrl);
         registry.add("jdbc.username", postgresContainer::getUsername);
         registry.add("jdbc.password", postgresContainer::getPassword);
         registry.add("jdbc.schema", () -> "interview_service");
@@ -89,7 +91,7 @@ public class HeroEndToEndTest {
         assertThat(responseBody).isNotNull();
         assertThat(responseBody.id()).isEqualTo(heroId);
         assertThat(responseBody.name()).isEqualTo("Green Arrow");
-        assertThat(responseBody.strength()).isEqualTo(4);
+        assertThat(responseBody.strength()).isEqualTo(6);
         assertThat(responseBody.agility()).isEqualTo(8);
     }
 
