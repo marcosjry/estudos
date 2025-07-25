@@ -1,4 +1,4 @@
-package br.com.gubee.interview.domain.dtos;
+package br.com.gubee.interview.infrastructure.features.DTO;
 
 import br.com.gubee.interview.domain.enums.Race;
 
