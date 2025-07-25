@@ -1,4 +1,4 @@
-package br.com.gubee.interview.domain.dtos;
+package br.com.gubee.interview.domain.model;
 
 public record Comparison(
         Integer agility,

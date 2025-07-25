@@ -1,6 +1,5 @@
 package br.com.gubee.interview.domain.model;
 
-import br.com.gubee.interview.domain.dtos.CreateHeroRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,10 +8,10 @@ import lombok.NoArgsConstructor;
 import java.time.Instant;
 import java.util.UUID;
 
-import static lombok.AccessLevel.PRIVATE;
+import static lombok.AccessLevel.PUBLIC;
 
 @Data
-@NoArgsConstructor(access = PRIVATE)
+@NoArgsConstructor(access = PUBLIC)
 @AllArgsConstructor
 @Builder
 public class PowerStats {
@@ -25,14 +24,6 @@ public class PowerStats {
     private int intelligence;
     private Instant createdAt;
     private Instant updatedAt;
-
-    public PowerStats(CreateHeroRequest createHeroRequest) {
-        this.strength = createHeroRequest.getStrength();
-        this.agility = createHeroRequest.getAgility();
-        this.dexterity = createHeroRequest.getDexterity();
-        this.intelligence = createHeroRequest.getIntelligence();
-        this.createdAt = Instant.now();
-    }
 
 
 }
