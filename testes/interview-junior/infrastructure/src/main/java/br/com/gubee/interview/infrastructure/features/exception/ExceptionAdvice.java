@@ -1,8 +1,7 @@
-package br.com.gubee.interview.application.exception;
+package br.com.gubee.interview.infrastructure.features.exception;
 
 import br.com.gubee.interview.domain.exception.NotFoundException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
