@@ -1,7 +1,6 @@
 package br.com.gubee.interview.domain.model;
 
 import br.com.gubee.interview.domain.enums.Race;
-import br.com.gubee.interview.domain.dtos.CreateHeroRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,9 +25,4 @@ public class Hero {
     private Instant updatedAt;
     private boolean enabled;
 
-    public Hero(CreateHeroRequest createHeroRequest, UUID powerStatsId) {
-        this.name = createHeroRequest.getName();
-        this.race = createHeroRequest.getRace();
-        this.powerStatsId = powerStatsId;
-    }
 }
