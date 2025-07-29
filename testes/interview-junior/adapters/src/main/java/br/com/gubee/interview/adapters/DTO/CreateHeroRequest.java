@@ -1,4 +1,4 @@
-package br.com.gubee.interview.infrastructure.DTO;
+package br.com.gubee.interview.adapters.DTO;
 
 import br.com.gubee.interview.domain.enums.Race;
 import jakarta.validation.constraints.Max;

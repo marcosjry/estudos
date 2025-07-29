@@ -1,4 +1,4 @@
-package br.com.gubee.interview.infrastructure.DTO;
+package br.com.gubee.interview.adapters.DTO;
 
 
 import br.com.gubee.interview.domain.model.Comparison;
@@ -6,6 +6,7 @@ import br.com.gubee.interview.domain.model.Comparison;
 public record ComparedHeroesDTO(
         HeroToRequestDTO heroOne,
         HeroToRequestDTO heroTwo,
-        Comparison comparison
+        Comparison comparison,
+        String winnerHeroName
 ) {
 }
