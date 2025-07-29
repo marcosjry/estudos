@@ -1,7 +1,7 @@
 package br.com.gubee.interview.application.service;
 
 import br.com.gubee.interview.application.port.in.CreateHeroUseCase;
-import br.com.gubee.interview.domain.model.CommandHero;
+import br.com.gubee.interview.application.port.in.CommandHero;
 import br.com.gubee.interview.application.port.out.HeroCommandPort;
 import br.com.gubee.interview.application.port.out.PowerStatsCommandPort;
 import br.com.gubee.interview.domain.model.Hero;
@@ -9,7 +9,6 @@ import br.com.gubee.interview.domain.model.PowerStats;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.UUID;
 
 @Service
@@ -22,21 +21,18 @@ public class CreateHeroService implements CreateHeroUseCase {
     @Override
     public UUID createHero(CommandHero hero) {
 
-        PowerStats powerStatsToCreate = PowerStats.builder()
-                .strength(hero.strength())
-                .agility(hero.agility())
-                .dexterity(hero.dexterity())
-                .intelligence(hero.intelligence())
-                .build();
+        PowerStats powerStatsToCreate = new PowerStats(
+                hero.strength(),
+                hero.agility(),
+                hero.dexterity(),
+                hero.intelligence()
+        );
 
-        UUID powerStatsId = powerStatsCommandPort.create(powerStatsToCreate);
-
-        Hero heroToCreate = Hero.builder()
-                .name(hero.name())
-                .powerStatsId(powerStatsId)
-                .race(hero.race())
-                .createdAt(Instant.now())
-                .build();
+        Hero heroToCreate = new Hero(
+                hero.name(),
+                hero.race(),
+                powerStatsToCreate
+        );
 
         return heroCommandPort.create(heroToCreate);
     }

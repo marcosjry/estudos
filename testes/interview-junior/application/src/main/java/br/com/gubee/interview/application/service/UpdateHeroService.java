@@ -1,11 +1,9 @@
 package br.com.gubee.interview.application.service;
 
-import br.com.gubee.interview.domain.model.CommandHero;
+import br.com.gubee.interview.application.port.in.CommandHero;
 import br.com.gubee.interview.application.port.in.UpdateHeroUseCase;
 import br.com.gubee.interview.application.port.out.HeroCommandPort;
 import br.com.gubee.interview.application.port.out.HeroQueryPort;
-import br.com.gubee.interview.application.port.out.PowerStatsCommandPort;
-import br.com.gubee.interview.application.port.out.PowerStatsQueryPort;
 import br.com.gubee.interview.domain.model.Hero;
 import br.com.gubee.interview.domain.model.PowerStats;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +16,7 @@ import java.util.UUID;
 public class UpdateHeroService implements UpdateHeroUseCase {
 
     private final HeroCommandPort heroCommandPort;
-    private final PowerStatsCommandPort powerStatsCommandPort;
-
     private final HeroQueryPort heroQueryPort;
-    private final PowerStatsQueryPort powerStatsQueryPort;
 
     @Override
     public void updateHeroById(UUID id, CommandHero heroToUpdate) {
@@ -29,39 +24,20 @@ public class UpdateHeroService implements UpdateHeroUseCase {
         Hero hero = heroQueryPort.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Hero not found with id: " + id));
 
-        PowerStats powerStatsToUpdate = powerStatsQueryPort.findById(hero.getPowerStatsId())
-                .orElseThrow(() -> new IllegalArgumentException("PowerStats not found with id: " + hero.getPowerStatsId()));
+        PowerStats powerStatsToUpdate = new PowerStats(
+                heroToUpdate.strength() != null ? heroToUpdate.strength() : -1,
+                heroToUpdate.agility() != null ? heroToUpdate.agility() : -1,
+                heroToUpdate.dexterity() != null ? heroToUpdate.dexterity() : -1,
+                heroToUpdate.intelligence() != null ? heroToUpdate.intelligence() : -1
+        );
 
-        updatePowerStats(powerStatsToUpdate, heroToUpdate);
-
-        if(heroToUpdate.name() != null) {
-            hero.setName(heroToUpdate.name());
-        }
-        if(heroToUpdate.race() != null) {
-            hero.setRace(heroToUpdate.race());
-        }
+        hero.update(
+                heroToUpdate.name(),
+                heroToUpdate.race(),
+                powerStatsToUpdate
+        );
 
         heroCommandPort.update(hero);
     }
 
-    public void updatePowerStats(PowerStats powerStats, CommandHero heroToUpdateDTO) {
-
-        if(heroToUpdateDTO.agility() != null) {
-            powerStats.setAgility(heroToUpdateDTO.agility());
-        }
-
-        if(heroToUpdateDTO.dexterity() != null) {
-            powerStats.setDexterity(heroToUpdateDTO.dexterity());
-        }
-
-        if(heroToUpdateDTO.strength() != null) {
-            powerStats.setStrength(heroToUpdateDTO.strength());
-        }
-
-        if(heroToUpdateDTO.intelligence() != null) {
-            powerStats.setIntelligence(heroToUpdateDTO.intelligence());
-        }
-
-        powerStatsCommandPort.update(powerStats);
-    }
 }

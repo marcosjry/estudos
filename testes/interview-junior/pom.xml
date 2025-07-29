@@ -42,7 +42,7 @@
     <modules>
         <module>application</module>
         <module>domain</module>
-        <module>infrastructure</module>
+        <module>adapters</module>
     </modules>
 
     <dependencyManagement>
@@ -56,7 +56,7 @@
 
             <dependency>
                 <groupId>gubee</groupId>
-                <artifactId>interview-infrastructure</artifactId>
+                <artifactId>interview-adapters</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
