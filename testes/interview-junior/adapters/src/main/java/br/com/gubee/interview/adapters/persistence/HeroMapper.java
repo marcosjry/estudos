@@ -1,11 +1,11 @@
-package br.com.gubee.interview.infrastructure.adapter.in.web.mapper;
+package br.com.gubee.interview.adapters.persistence;
 
-import br.com.gubee.interview.domain.model.CommandHero;
-import br.com.gubee.interview.application.port.out.PowerStatsQueryPort;
-import br.com.gubee.interview.infrastructure.DTO.ComparedHeroesDTO;
-import br.com.gubee.interview.infrastructure.DTO.CreateHeroRequest;
-import br.com.gubee.interview.infrastructure.DTO.HeroToRequestDTO;
-import br.com.gubee.interview.domain.model.ComparisonResult;
+import br.com.gubee.interview.adapters.DTO.HeroToUpdateDTO;
+import br.com.gubee.interview.application.port.in.CommandHero;
+import br.com.gubee.interview.adapters.DTO.ComparedHeroesDTO;
+import br.com.gubee.interview.adapters.DTO.CreateHeroRequest;
+import br.com.gubee.interview.adapters.DTO.HeroToRequestDTO;
+import br.com.gubee.interview.application.port.in.ComparisonResult;
 import br.com.gubee.interview.domain.model.Hero;
 import br.com.gubee.interview.domain.model.PowerStats;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +16,6 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class HeroMapper {
-
-    private final PowerStatsQueryPort powerStatsQueryPort;
 
     public CommandHero toCommand(CreateHeroRequest dto) {
         if (dto == null) {
@@ -34,23 +32,34 @@ public class HeroMapper {
         );
     }
 
+    public CommandHero toCommand(HeroToUpdateDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+
+        return new CommandHero(
+                dto.name(),
+                dto.race(),
+                dto.strength(),
+                dto.agility(),
+                dto.dexterity(),
+                dto.intelligence()
+        );
+    }
+
     public HeroToRequestDTO toDto(Hero hero) {
         if (hero == null) {
             return null;
         }
 
-        PowerStats stats = powerStatsQueryPort.findById(hero.getPowerStatsId()).orElseThrow(
-                () -> new IllegalArgumentException("PowerStats not found with ID: " + hero.getPowerStatsId())
-        );
-
         return new HeroToRequestDTO(
                 hero.getId(),
                 hero.getName(),
-                hero.getRace().name(),
-                stats.getStrength(),
-                stats.getAgility(),
-                stats.getDexterity(),
-                stats.getIntelligence()
+                hero.getRace(),
+                hero.getPowerStats().getAgility(),
+                hero.getPowerStats().getDexterity(),
+                hero.getPowerStats().getStrength(),
+                hero.getPowerStats().getIntelligence()
         );
     }
 
@@ -60,20 +69,7 @@ public class HeroMapper {
         }
 
         return heroes.stream()
-                .map(hero -> {
-                    PowerStats stats = powerStatsQueryPort.findById(hero.getPowerStatsId())
-                            .orElseThrow(() -> new IllegalArgumentException("PowerStats not found with ID: " + hero.getPowerStatsId()));
-
-                    return new HeroToRequestDTO(
-                            hero.getId(),
-                            hero.getName(),
-                            hero.getRace().name(),
-                            stats.getAgility(),
-                            stats.getDexterity(),
-                            stats.getStrength(),
-                            stats.getIntelligence()
-                    );
-                })
+                .map(this::toDto)
                 .toList();
     }
 
@@ -87,7 +83,40 @@ public class HeroMapper {
         return new ComparedHeroesDTO(
                 heroOneDto,
                 heroTwoDto,
-                comparisonResult.comparison()
+                comparisonResult.comparison(),
+                comparisonResult.winnerHeroName()
+        );
+    }
+
+    public HeroJdbcEntity toJdbcEntity(Hero hero) {
+        if (hero == null) {
+            return null;
+        }
+
+        return new HeroJdbcEntity(
+                hero.getId(),
+                hero.getName(),
+                hero.getRace(),
+                hero.getPowerStats().getId(),
+                hero.getCreatedAt(),
+                hero.getUpdatedAt(),
+                hero.isEnabled()
+        );
+    }
+
+    public Hero toDomain(HeroJdbcEntity heroJdbcEntity, PowerStats powerStats) {
+        if (heroJdbcEntity == null) {
+            return null;
+        }
+
+        return new Hero(
+                heroJdbcEntity.getId(),
+                heroJdbcEntity.getName(),
+                heroJdbcEntity.getRace(),
+                powerStats,
+                heroJdbcEntity.getCreatedAt(),
+                heroJdbcEntity.getUpdatedAt(),
+                heroJdbcEntity.isEnabled()
         );
     }
 

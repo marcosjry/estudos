@@ -1,8 +1,7 @@
-package br.com.gubee.interview.infrastructure.adapter.out.persistence;
+package br.com.gubee.interview.adapters.persistence;
 
 import br.com.gubee.interview.application.port.out.PowerStatsQueryPort;
 import br.com.gubee.interview.domain.model.PowerStats;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;

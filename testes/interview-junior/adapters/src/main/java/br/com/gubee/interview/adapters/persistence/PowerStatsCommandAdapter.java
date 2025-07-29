@@ -1,8 +1,7 @@
-package br.com.gubee.interview.infrastructure.adapter.out.persistence;
+package br.com.gubee.interview.adapters.persistence;
 
 import br.com.gubee.interview.application.port.out.PowerStatsCommandPort;
 import br.com.gubee.interview.domain.model.PowerStats;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -35,6 +34,7 @@ public class PowerStatsCommandAdapter implements PowerStatsCommandPort {
 
     @Override
     public UUID create(PowerStats powerStats) {
+
         return namedParameterJdbcTemplate.queryForObject(
                 CREATE_POWER_STATS_QUERY,
                 new BeanPropertySqlParameterSource(powerStats),
