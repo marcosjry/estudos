@@ -7,7 +7,7 @@ import java.util.UUID;
 public interface HeroCommandPort {
 
     UUID create(Hero hero);
-    void deleteHeroById(UUID id);
+    void deleteHero(Hero hero);
     int update(Hero hero);
 
 }
