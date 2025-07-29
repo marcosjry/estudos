@@ -1,13 +1,14 @@
-package br.com.gubee.interview.infrastructure.adapter.in.web;
+package br.com.gubee.interview.adapters.web;
 
+import br.com.gubee.interview.adapters.DTO.HeroToUpdateDTO;
 import br.com.gubee.interview.application.port.in.*;
-import br.com.gubee.interview.domain.model.CommandHero;
-import br.com.gubee.interview.infrastructure.DTO.ComparedHeroesDTO;
-import br.com.gubee.interview.infrastructure.DTO.CreateHeroRequest;
-import br.com.gubee.interview.infrastructure.DTO.HeroToRequestDTO;
-import br.com.gubee.interview.domain.model.ComparisonResult;
+import br.com.gubee.interview.application.port.in.CommandHero;
+import br.com.gubee.interview.adapters.DTO.ComparedHeroesDTO;
+import br.com.gubee.interview.adapters.DTO.CreateHeroRequest;
+import br.com.gubee.interview.adapters.DTO.HeroToRequestDTO;
+import br.com.gubee.interview.application.port.in.ComparisonResult;
 import br.com.gubee.interview.domain.model.Hero;
-import br.com.gubee.interview.infrastructure.adapter.in.web.mapper.HeroMapper;
+import br.com.gubee.interview.adapters.persistence.HeroMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -76,9 +77,11 @@ public class HeroController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Void> updateHero(@PathVariable UUID id, @RequestBody CommandHero heroToUpdateDTO) {
+    public ResponseEntity<Void> updateHero(@PathVariable UUID id, @RequestBody HeroToUpdateDTO heroToUpdateDTO) {
 
-        this.updateHeroUseCase.updateHeroById(id, heroToUpdateDTO);
+        var commandHeroUpdate = heroMapper.toCommand(heroToUpdateDTO);
+
+        this.updateHeroUseCase.updateHeroById(id, commandHeroUpdate);
 
         return ResponseEntity.ok()
                 .header("Content-Type", APPLICATION_JSON_VALUE)

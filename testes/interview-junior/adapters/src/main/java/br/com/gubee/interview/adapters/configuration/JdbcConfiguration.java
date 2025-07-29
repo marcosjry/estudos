@@ -1,4 +1,4 @@
-package br.com.gubee.interview.infrastructure.configuration;
+package br.com.gubee.interview.adapters.configuration;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;

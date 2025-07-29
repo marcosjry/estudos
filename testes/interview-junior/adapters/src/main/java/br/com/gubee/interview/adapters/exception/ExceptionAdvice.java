@@ -1,10 +1,12 @@
-package br.com.gubee.interview.infrastructure.exception;
+package br.com.gubee.interview.adapters.exception;
 
+import br.com.gubee.interview.domain.exception.HeroNameAlreadyExistsException;
 import br.com.gubee.interview.domain.exception.NotFoundException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.util.StringUtils;
@@ -37,6 +39,11 @@ public class ExceptionAdvice {
     @ExceptionHandler(value = {IllegalArgumentException.class, MethodArgumentTypeMismatchException.class})
     ResponseEntity<Object> handleInvalidRequest(Exception e) {
         return status(BAD_REQUEST).body(e.getMessage());
+    }
+
+    @ExceptionHandler(value = {HeroNameAlreadyExistsException.class})
+    ResponseEntity<Object> handleDuplicateKey(HeroNameAlreadyExistsException e) {
+        return status(CONFLICT).body(e.getMessage());
     }
 
     @ExceptionHandler(value = {InvalidFormatException.class, HttpMessageNotReadableException.class})
