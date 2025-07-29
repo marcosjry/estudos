@@ -1,4 +1,4 @@
-package br.com.gubee.interview.infrastructure.configuration;
+package br.com.gubee.interview.adapters.configuration;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Configuration;
