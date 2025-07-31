@@ -28,7 +28,7 @@ public class CompareTwoHeroService implements CompareTwoHeroUseCase {
 
         String winnerHeroName =  heroOne.getPowerStats().getTotal() > heroTwo.getPowerStats().getTotal() ? heroOne.getName() : heroTwo.getName();
 
-        if (heroTwo.getPowerStats().getTotal() == heroTwo.getPowerStats().getTotal())
+        if (heroOne.getPowerStats().getTotal() == heroTwo.getPowerStats().getTotal())
             winnerHeroName = "DRAW";
 
         return new ComparisonResult(heroOne, heroTwo, comparison, winnerHeroName);

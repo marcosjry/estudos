@@ -12,10 +12,10 @@ import java.util.UUID;
 public class PowerStats {
 
     private UUID id;
-    private int strength;
-    private int agility;
-    private int dexterity;
-    private int intelligence;
+    private Integer strength;
+    private Integer agility;
+    private Integer dexterity;
+    private Integer intelligence;
     private Instant createdAt;
     private Instant updatedAt;
 
@@ -44,22 +44,25 @@ public class PowerStats {
 
     }
 
-    public void update(Integer newStrength, Integer newAgility, Integer newDexterity, Integer newIntelligence) {
-
-        if (newStrength != null && newStrength >= 0 && newStrength <= 10) {
-            this.strength = newStrength;
+    public void update(PowerStats powerStatsToUpdate) {
+        if(powerStatsToUpdate == null) {
+            return;
         }
 
-        if (newAgility != null && newAgility >= 0 && newAgility <= 10) {
-            this.agility = newAgility;
+        if (powerStatsToUpdate.getStrength() != null && powerStatsToUpdate.getStrength() >= 0 && powerStatsToUpdate.getStrength() <= 10) {
+            this.strength = powerStatsToUpdate.getStrength();
         }
 
-        if (newDexterity != null && newDexterity >= 0 && newDexterity <= 10) {
-            this.dexterity = newDexterity;
+        if (powerStatsToUpdate.getAgility() != null && powerStatsToUpdate.getAgility() >= 0 && powerStatsToUpdate.getAgility() <= 10) {
+            this.agility = powerStatsToUpdate.getAgility();
         }
 
-        if (newIntelligence != null && newIntelligence >= 0 && newIntelligence <= 10) {
-            this.intelligence = newIntelligence;
+        if (powerStatsToUpdate.getDexterity() != null && powerStatsToUpdate.getDexterity() >= 0 && powerStatsToUpdate.getDexterity() <= 10) {
+            this.dexterity = powerStatsToUpdate.getDexterity();
+        }
+
+        if (powerStatsToUpdate.getIntelligence() != null && powerStatsToUpdate.getIntelligence() >= 0 && powerStatsToUpdate.getIntelligence() <= 10) {
+            this.intelligence = powerStatsToUpdate.getIntelligence();
         }
 
         this.updatedAt = Instant.now();
