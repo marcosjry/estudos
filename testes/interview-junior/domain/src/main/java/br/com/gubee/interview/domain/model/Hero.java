@@ -21,6 +21,7 @@ public class Hero {
         this.name = name;
         this.race = race;
         this.powerStats = powerStats;
+        this.enabled = true;
     }
 
     public Hero(UUID id, String name, Race race, PowerStats powerStats, Instant createdAt, Instant updatedAt, boolean enabled) {
@@ -59,11 +60,7 @@ public class Hero {
         if(newRace != null && !newRace.name().isEmpty())
             this.race = newRace;
 
-        this.powerStats.update(newStats.getStrength(),
-                newStats.getAgility(),
-                newStats.getDexterity(),
-                newStats.getIntelligence()
-        );
+        this.powerStats.update(newStats);
 
         this.touch();
     }
