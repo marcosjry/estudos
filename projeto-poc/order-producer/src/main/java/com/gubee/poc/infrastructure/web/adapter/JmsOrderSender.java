@@ -24,27 +24,42 @@ public class JmsOrderSender implements OrderSenderPort {
     private AtomicInteger attempt = new AtomicInteger(0);
 
     @Retry(maxRetries = 3, delay = 1000)
-    @Fallback(fallbackMethod = "fallbackSend")
     @Timeout(2000)
     @CircuitBreaker(requestVolumeThreshold = 4, failureRatio = 0.5, delay = 5000)
+    @Fallback(fallbackMethod = "fallbackSend")
     @Override
-    public void send(Order order) {
-        int count = attempt.incrementAndGet();
-        System.out.println("Enviando pedido. Tentativa #" + count);
+    public Order send(Order order, String typeError) {
+        switch (typeError) {
+            case "1":
+                int count = attempt.incrementAndGet();
+                System.out.println("Enviando pedido (Retry). Tentativa #" + count);
+                if (count < 3) throw new RuntimeException("Erro simulado para Retry");
+                break;
 
-        if (count < 3) {
-            throw new RuntimeException("Erro simulado no envio");
+            case "2":
+                System.out.println("Enviando pedido (Timeout)");
+                try { Thread.sleep(3000); } catch (InterruptedException ignored) {}
+                break;
+
+            default:
+                System.out.println("Enviando pedido (Erro Permanente)");
+                throw new RuntimeException("Erro permanente simulado");
         }
 
         try (JMSContext context = connectionFactory.createContext()) {
+            order.deliver();
             JMSProducer producer = context.createProducer();
             String payload = JsonbBuilder.create().toJson(order);
             producer.send(context.createQueue("queue.orders"), payload);
-            System.out.println("✅ Pedido enviado: " + payload);
+            System.out.println("✅ Pedido enviado: " + order);
+            attempt.set(0);
         }
+        return order;
     }
 
-    public void fallbackSend(Order order) {
-        System.out.println("Erro ao enviar pedido para fila. Fallback executado.");
+    @Override
+    public Order fallbackSend(Order order, String typeError) {
+        System.out.println("Erro ao enviar pedido para fila.\n");
+        throw new RuntimeException("Pedido cancelado devido a falha no envio.");
     }
 }
