@@ -13,7 +13,8 @@ public class OrderService implements OrderCreateUseCase {
     OrderSenderPort senderPort;
 
     @Override
-    public void create(Order order) {
-        senderPort.send(order);
+    public void create(Order order, int typeError) {
+        String error = String.valueOf(typeError);
+        senderPort.send(order, error);
     }
 }
