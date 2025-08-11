@@ -1,8 +1,9 @@
 package com.gubee.poc.infrastructure.web.dto;
 
+import java.util.List;
+
 public record OrderDTO(
-        String id,
-        String product,
-        int quantity
+        List<OrderItemDTO> items
 ) {
 }
+
