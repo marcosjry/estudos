@@ -1,8 +1,6 @@
 package com.gubee.poc.infrastructure.web.adapter;
 
-import com.gubee.poc.domain.model.Order;
 import com.gubee.poc.domain.model.OrderItem;
-import com.gubee.poc.infrastructure.web.dto.OrderDTO;
 import com.gubee.poc.infrastructure.web.dto.OrderItemDTO;
 
 import java.util.List;
