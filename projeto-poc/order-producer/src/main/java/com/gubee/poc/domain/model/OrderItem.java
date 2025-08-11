@@ -8,10 +8,10 @@ import java.util.UUID;
 @Data
 public class OrderItem {
 
-    private final UUID id;
-    private final UUID productId;
-    private final Integer quantity;
-    private final BigDecimal price; // O preço no momento da compra
+    private UUID id;
+    private UUID productId;
+    private Integer quantity;
+    private BigDecimal price; // O preço no momento da compra
 
     public OrderItem(Integer quantity, BigDecimal price) {
         if (quantity <= 0) {
@@ -27,4 +27,13 @@ public class OrderItem {
         return price.multiply(new BigDecimal(quantity));
     }
 
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "id=" + id +
+                ", productId=" + productId +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                '}';
+    }
 }
