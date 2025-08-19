@@ -75,4 +75,5 @@ public class OrderProducer implements OrderProducerPort {
         System.out.println("Erro ao enviar pedido para fila.\n");
         throw new RuntimeException("Pedido cancelado devido a falha no envio.");
     }
+
 }
