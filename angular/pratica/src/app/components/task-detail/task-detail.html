@@ -1,0 +1,24 @@
+<div class="task-detail-container">
+  <ng-container *ngIf="task$ | async as task; else loadingOrNotFound">
+    <h2 class="detail-title">{{ task.title }}</h2>
+    <div class="detail-info">
+
+      <p>
+        <span class="label">Status:</span> <span class="status" [class.completed]="task.completed">{{ task.completed ? 'Concluída' : 'Pendente' }}</span>
+      </p>
+
+      <p>
+        <span class="label">Criada em:</span> {{ task.createdAt | date:'fullDate' }} ({{ task.createdAt | timeAgo }})
+      </p>
+
+      <p>
+        <span class="label">ID da Tarefa:</span> <span class="task-id">{{ task.id }}</span>
+      </p>
+
+    </div>
+  </ng-container>
+  <ng-template #loadingOrNotFound>
+    <p>A carregar tarefa ou tarefa não encontrada...</p>
+  </ng-template>
+  <a routerLink="/" class="back-link"> ← Voltar para a lista</a>
+</div>
