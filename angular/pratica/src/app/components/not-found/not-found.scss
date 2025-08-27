@@ -1,0 +1,33 @@
+.not-found-container { 
+    text-align: center; 
+    padding: 3rem 1rem; 
+}
+
+.title { 
+    font-size: 6rem; 
+    font-weight: 900; 
+    color: #2563eb; 
+}
+
+.subtitle { 
+    font-size: 1.875rem; 
+    font-weight: 600; 
+    color: #1f2937; 
+    margin-top: -1rem; 
+}
+
+.message { 
+    color: #4b5563; 
+    margin-top: 1rem; 
+}
+
+.home-link { 
+    display: inline-block; 
+    margin-top: 2rem; 
+    background-color: #2563eb; 
+    color: #fff; 
+    padding: .75rem 1.5rem; 
+    border-radius: .5rem; 
+    text-decoration: none; 
+    font-weight: 500; 
+}
